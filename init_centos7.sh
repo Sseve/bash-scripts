@@ -155,12 +155,12 @@ main(){
 		echo -e "\033[31m 内核调参失败.\033[0m" >> init.log
 	fi
 	
-	del_log
-	if [[ $? -eq 0 ]];then
-		echo -e "\033[32m 日志记录设置成功.\033[0m" >> init.log
-	else
-		echo -e "\033[31m 日志记录设置失败.\033[0m" >> init.log
-	fi
+	#del_log
+	#if [[ $? -eq 0 ]];then
+	#	echo -e "\033[32m 日志记录设置成功.\033[0m" >> init.log
+	#else
+	#	echo -e "\033[31m 日志记录设置失败.\033[0m" >> init.log
+	#fi
 	
 	cat init.log
 	rm init.log init_centos7.sh
