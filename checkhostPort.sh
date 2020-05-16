@@ -12,7 +12,7 @@ exec 6<&-	          --关闭读
 
 #帮助信息
 Help(){
-	echo "Usage: sh checkhostPort.sh -i 127.0.0.1 -p '22 55'"
+	echo "Usage: sh checkhostPort.sh -i [ 127.0.0.1 | ip.txt ] -p [ '22 55' | '100-1000' ]"
 	echo "	-h|--help		打印帮助信息."
 	echo "	-i|--ip			主机ip,可以跟单个ip，也可以跟一个包含ip的文件."
 	echo "	-p|--port		主机端口."
@@ -42,8 +42,8 @@ scan_port(){
 				echo &> /dev/null > /dev/tcp/${IPS}/${J}
 				if [[ $? -eq 0 ]];then
 					echo -e "\033[1;32m[+]\033[0m IP:${IPS} --> ${J} open."
-				else
-					echo -e "\033[1;31m[-]\033[0m IP:${IPS} --> ${J} close."
+				#else
+				#	echo -e "\033[1;31m[-]\033[0m IP:${IPS} --> ${J} close."
 				fi
 			done
 		fi
@@ -69,13 +69,14 @@ scan_port(){
 					echo &> /dev/null > /dev/tcp/${I}/${J}
 					if [[ $? -eq 0 ]];then
 						echo -e "\033[1;32m[+]\033[0m IP:${I} --> ${J} open."
-					else
-						echo -e "\033[1;31m[-]\033[0m IP:${I} --> ${J} close."
+					#else
+					#	echo -e "\033[1;31m[-]\033[0m IP:${I} --> ${J} close."
 					fi
 				done
 			fi
 		done
 	fi
+	echo -e "\033[32m 扫描完毕！！\033[0m"
 }
 
 #读取命令行参数
