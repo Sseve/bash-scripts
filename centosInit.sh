@@ -15,7 +15,8 @@ if [[ "${password}" == "no" ]];then
 fi
 
 #更新yum并安装相关工具
-update_yum(){
+update_yum()
+{
 	yum -y update
 	yum -y install curl epel-release
 	mkdir /etc/yum.repos.d/repo_bak && /mv /etc/yum.repos.d/*.repo /etc/yum.repos.d/repo_bak
@@ -27,7 +28,8 @@ update_yum(){
 }
 
 #防火墙
-iptables_conf(){
+iptables_conf()
+{
 	systemctl stop firewalld.service
 	systemctl disable firewalld.service
 	yum install -y iptables-services
@@ -41,7 +43,8 @@ iptables_conf(){
 }
 
 #内核参数,根据实际情况调整
-sys_conf(){
+sys_conf()
+{
 	cp /etc/profile /etc/profile.bak
 	cp /etc/security/limits.conf /etc/security/limits.conf.bak
 	echo "ulimit -SHn 102400" >> /etc/profile
@@ -123,7 +126,8 @@ EOF
 }
 
 #该函数不可用
-del_log(){
+del_log()
+{
 	echo 'export HISTTIMEFORMAT' >> /etc/bashrc
 	[ -d /usr/bin/.hist/.cmd/ ] || mkdir -m 777 -p /usr/bin/.hist/.cmd
 		echo 'export SSH_CLIENT=$(/usr/bin/who am i | /bin/egrep -o "[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*")' >> /etc/profile
@@ -163,7 +167,7 @@ main(){
 	#fi
 	
 	cat init.log
-	rm init.log init_centos7.sh
+	rm init.log init_centos.sh
 }
 
 main
