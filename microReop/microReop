@@ -1,0 +1,90 @@
+#!/bin/bash
+# 远程执行脚本,机器需要做免登陆
+# 该脚本用于执行远程相关的操作
+# chmod +x microReop
+# Usage: ./microReop -h 获取帮助信息
+
+
+Help()
+{
+    echo "microReop是一个可批量远程操作主机的shell脚本."
+    echo "usage: ./reop [选项]... [参数]..."
+    echo "       ./microReop -c 'ls -l'"
+    echo "       ./microReop -c 'ls -l' -i '192.168.2.1 192.168.2.2'"
+    echo 
+    echo "  -h             打印此工具的帮助信息."
+    echo "  -c 'command'   在远程主机上执行命令."
+    echo "  -s  script     在远程主机上执行脚本."
+    echo "  -i 'ip'        被操作的主机ip."
+    echo "  当不指定-i参数时,在配置文件中的所有主机都要被执行."
+    exit 0
+}
+
+# 配置文件中,数组iplist中的机器全部执行传入的命令
+allHostCmd()
+{
+    for ip in $(echo ${iplist[*]})
+    do
+        echo -e "\033[32mIP: ${ip} 执行命令: ${cmd}\033[0m"
+        ssh -o ConnectTimeout=5 $ip "sudo ${cmd} && echo ${FLAG}"
+    done 
+}
+
+# 命令行传入的主机将执行传入的命令
+someHostCmd()
+{
+    for ip in ${host}
+    do
+        echo -e "\033[32mIP: ${ip} 执行命令: ${cmd}\033[0m"
+        ssh -o ConnectTimeout=5 $ip "sudo ${cmd} && echo ${FLAG}"
+    done
+}
+
+# 配置文件中,数组iplist中的全部机器执行传入的脚本
+allHostScript()
+{
+    for ip in $(echo ${iplist[*]})
+    do
+        echo -e "\033[32mIP: ${ip} 执行脚本: ${spt}\033[0m"
+        scp ${spt} ${ip}:~
+        ssh -o ConnectTimeout=5 ${ip} "sudo sh ${remote_dir}/${spt} && echo ${FLAG}"
+    done
+}
+
+# 命令行传入的主机将执行传入的脚本
+someHostScript()
+{
+    for ip in ${host}
+    do
+        echo -e "\033[32mIP: ${ip} 执行脚本: ${spt}\033[0m"
+        scp ${spt} ${ip}:~
+        ssh -o ConnectTimeout=5 ${ip} "sudo sh ${remote_dir}/${spt} && echo ${FLAG}"
+    done
+}
+
+# 以root身份运行此脚本
+if [[ "$(whoami)" != "root" ]];then
+    echo -e "\033[32m 请以root身份运行此脚本! \033[0m"
+    exit 0
+fi
+
+#加载配置变量
+[ -f reop.cnf ] && source reop.cnf
+
+# 该变量用于标记在远程主机上执行的动作成功.
+FLAG="-e '\033[33m[-_-]:\033[0m'"
+
+# 传入命令行参数
+if [[ "$1" == "-h" ]];then
+    Help
+elif [[ "$1" == "-c" ]] && [[ $# -eq 2 ]];then
+    cmd=$2 && allHostCmd
+elif [[ "$1" == "-s" ]] && [[ $# -eq 2 ]];then
+    spt=$2 && allHostScript
+elif [[ "$1" == "-c" ]] && [[ "$3" == "-i" ]] && [[ $# -eq 4 ]];then
+    cmd=$2 && host=$4 && someHostCmd
+elif [[ "$1" == "-s" ]] && [[ "$3" == "-i" ]] && [[ $# -eq 4 ]];then
+    spt=$2 && host=$4 && someHostScript
+else
+    Help     
+fi
