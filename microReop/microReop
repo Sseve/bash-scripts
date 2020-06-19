@@ -1,17 +1,13 @@
 #!/bin/bash
 # 远程执行脚本,机器需要做免登陆
 # 该脚本用于执行远程相关的操作
-# chmod +x microReop
-# Usage: ./microReop -h 获取帮助信息
+# chmod +x reop
 
 
 Help()
 {
-    echo "microReop是一个可批量远程操作主机的shell脚本."
+    echo "reop是一个用于远程操作主机的工具,用shell语言完成."
     echo "usage: ./reop [选项]... [参数]..."
-    echo "       ./microReop -c 'ls -l'"
-    echo "       ./microReop -c 'ls -l' -i '192.168.2.1 192.168.2.2'"
-    echo 
     echo "  -h             打印此工具的帮助信息."
     echo "  -c 'command'   在远程主机上执行命令."
     echo "  -s  script     在远程主机上执行脚本."
@@ -27,6 +23,9 @@ allHostCmd()
     do
         echo -e "\033[32mIP: ${ip} 执行命令: ${cmd}\033[0m"
         ssh -o ConnectTimeout=5 $ip "sudo ${cmd} && echo ${FLAG}"
+    #    if [[ "$?" != "0" ]];then
+    #    echo -e "\033[33mIP: ${IP} 连接超时.\033[0m"
+    #	fi
     done 
 }
 
@@ -43,23 +42,39 @@ someHostCmd()
 # 配置文件中,数组iplist中的全部机器执行传入的脚本
 allHostScript()
 {
-    for ip in $(echo ${iplist[*]})
-    do
-        echo -e "\033[32mIP: ${ip} 执行脚本: ${spt}\033[0m"
-        scp ${spt} ${ip}:~
-        ssh -o ConnectTimeout=5 ${ip} "sudo sh ${remote_dir}/${spt} && echo ${FLAG}"
-    done
+    read -p "上传的文件是否执行[yes|no]: " enter
+    if [[ "${enter}" == "yes" ]];then
+        for ip in $(echo ${iplist[*]})
+        do
+            echo -e "\033[32mIP: ${ip} 执行脚本: ${spt}\033[0m"
+            scp ${spt} ${ip}:~
+            ssh -o ConnectTimeout=5 ${ip} "sudo sh ${remote_dir}/${spt} && echo ${FLAG}"
+        done
+    else
+        for ip in $(echo ${iplist[*]}) 
+        do
+	    scp ${spt} ${ip}:~	
+        done
+    fi
 }
 
 # 命令行传入的主机将执行传入的脚本
 someHostScript()
 {
-    for ip in ${host}
-    do
-        echo -e "\033[32mIP: ${ip} 执行脚本: ${spt}\033[0m"
-        scp ${spt} ${ip}:~
-        ssh -o ConnectTimeout=5 ${ip} "sudo sh ${remote_dir}/${spt} && echo ${FLAG}"
-    done
+    read -p "上传的文件是否执行[yes|no]: " enter
+    if [[ "${enter}" == "yes" ]];then
+        for ip in ${host}
+        do
+            echo -e "\033[32mIP: ${ip} 执行脚本: ${spt}\033[0m"
+            scp ${spt} ${ip}:~
+            ssh -o ConnectTimeout=5 ${ip} "sudo sh ${remote_dir}/${spt} && echo ${FLAG}"
+        done
+    else
+        for ip in $(echo ${host}) 
+        do
+            scp ${spt} ${ip}:~  
+        done
+    fi
 }
 
 # 以root身份运行此脚本
@@ -67,6 +82,7 @@ if [[ "$(whoami)" != "root" ]];then
     echo -e "\033[32m 请以root身份运行此脚本! \033[0m"
     exit 0
 fi
+
 
 #加载配置变量
 [ -f reop.cnf ] && source reop.cnf
