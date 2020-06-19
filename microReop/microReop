@@ -85,7 +85,7 @@ fi
 
 
 #加载配置变量
-[ -f reop.cnf ] && source reop.cnf
+[ -f microReop.cnf ] && source microReop.cnf
 
 # 该变量用于标记在远程主机上执行的动作成功.
 FLAG="-e '\033[33m[-_-]:\033[0m'"
