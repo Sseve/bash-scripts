@@ -6,8 +6,8 @@
 
 Help()
 {
-    echo "reop是一个用于远程操作主机的工具,用shell语言完成."
-    echo "usage: ./reop [选项]... [参数]..."
+    echo "microReop是一个用于远程操作主机的工具,用shell语言完成."
+    echo "usage: ./microReop [选项]... [参数]..."
     echo "  -h             打印此工具的帮助信息."
     echo "  -c 'command'   在远程主机上执行命令."
     echo "  -s  script     在远程主机上执行脚本."
