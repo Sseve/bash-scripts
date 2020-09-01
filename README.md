@@ -1,3 +1,3 @@
 ### bash
 
-> 一些脚本.
+> just some scripts to learn shell.
