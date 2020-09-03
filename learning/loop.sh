@@ -13,6 +13,17 @@ do
     echo $j
 done
 
+for i in $(seq 0 2 10);do
+    echo $i
+done
+
+# +++++++++
+# array
+a=(1 2 3 4 5)
+for i in ${a[*]};do
+    echo $i
+done
+
 # ++++++++
 # c syntax
 
