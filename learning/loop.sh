@@ -1,6 +1,7 @@
 #!/bin/bash
-
-# 遍历数字区间
+#
+# bash loop
+# 
 for i in {1..5}
 do
     echo $i
