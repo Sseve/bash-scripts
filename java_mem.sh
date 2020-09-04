@@ -20,21 +20,16 @@ O_THRESHOLD=82
 P_THRESHOLD=94
 OP=10
 
-#判断脚本是否启动
-LOCK_JAVA_MEM="/tmp/java_mem"
-if [[ -e ${LOCK_JAVA_MEM} ]];then
-    exit
-fi
-touch ${LOCK_JAVA_MEM}
 
 [ ! -d /tmp/java_pid ] && mkdir -p /tmp/java_pid
 
+# 遍历运行的java进程ID,并获取状态
 for pid in ${JAVA_PIDS[*]};do
     echo ${pid} >> /tmp/java_info_${TIME}.log
     O=$(${JDK_TOOLS}jstat -gcutil ${pid}|awk '{print $4}'|grep -v O|awk '{print $0}'|awk 'BEGIN{FS="."}{print $1}')
     P=$(${JDK_TOOLS}jstat -gcutil ${pid}|awk '{print $5}'|grep -v M|awk '{print $0}'|awk 'BEGIN{FS="."}{print $1}')
     
-    [ -d /tmp/java_pid/${pid} ] && rm -f /tmp/java_pid/${pid}
+    [ ! -d /tmp/java_pid/${pid} ] && mkdir /tmp/java_pid/${pid}
     if [ -f /tmp/java_pid/${pid}/O ];then
         O_sum=$(cat /tmp/java_pid/${pid}/O)
         if [ $O -ge ${O_THRESHOLD} ];then
@@ -63,6 +58,9 @@ for pid in ${JAVA_PIDS[*]};do
     fi
 
     if [ ${O_sum} -ge ${OP} -o ${P_sum} -ge ${OP} ];then
+        O_sum=0
+	P_sum=0
+        sleep 3600
         ${JDK_TOOLS}jmap -histo ${pid} >> /tmp/java_info_${TIME}.log
         curl ${WEBHOOK} -H "Content-Type:application/json" -d \
 		"{'msgtype':'text','text':{'content':'主机IP=${IP},时间=${DATE}, 进程ID=${pid}异常; O区值=${O},P区值=${P},请及时处理'}}"
@@ -75,5 +73,6 @@ echo "tcp links" >> /tmp/java_info_${TIME}.log
 /bin/netstat -n |grep -v 127.0.0.1|awk '/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}' >> /tmp/java_info_${TIME}.log
 
 [ -f /tmp/java_info_${DTIME}.log ] && rm /tmp/java_info_${DTIME}.log
-#rm -rf /tmp/java_pid/[0-9]*
-rm -f ${LOCK_JAVA_MEM}
+if [ "${NHOUR}" == "0000" ];then
+    rm -rf /tmp/java_pid/[0-9]*
+fi
