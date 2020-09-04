@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # bash loop
-# 
+:<<! 
 for i in {1..5}
 do
     echo $i
@@ -30,3 +30,17 @@ done
 for((i=0;i<10;i++));do
     echo $i
 done
+!
+####
+pid=$(ps aux|grep loop.sh |grep -v grep |awk '{print $2}')
+while [ 1 ];do
+    sleep 3600
+    echo ${pid} >> test.txt
+    echo " " >> test.txt
+done
+:<<!
+for ((;;));do
+    sleep
+    echo bbbb
+done
+!
