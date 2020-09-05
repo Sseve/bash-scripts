@@ -58,9 +58,8 @@ for pid in ${JAVA_PIDS[*]};do
     fi
 
     if [ ${O_sum} -ge ${OP} -o ${P_sum} -ge ${OP} ];then
-        O_sum=0
-	P_sum=0
-        sleep 3600
+        echo "0" > /tmp/java_pid/${pid}/O
+        echo "0" > /tmp/java_pid/${pid}/P
         ${JDK_TOOLS}jmap -histo ${pid} >> /tmp/java_info_${TIME}.log
         curl ${WEBHOOK} -H "Content-Type:application/json" -d \
 		"{'msgtype':'text','text':{'content':'主机IP=${IP},时间=${DATE}, 进程ID=${pid}异常; O区值=${O},P区值=${P},请及时处理'}}"
