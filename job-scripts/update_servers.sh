@@ -18,7 +18,7 @@ Help(){
 
 	info: 注意severid和sid要对应起来.
     "
-    exit
+    exit 0
 }
 
 # 更新数据库表函数
@@ -28,7 +28,7 @@ update_servsers(){
     ((length=${length1} - 1))
     if [ ${length1} -ne ${length2} ];then
 	echo "serverid和sid长度不匹配!!"
-        exit
+        exit -1
     fi
     
     for i in $(seq 0 ${length});do
@@ -60,7 +60,7 @@ else
     reserverid=${serveride} && resid=${side}
     if [[ "${serverid}" != "${reserverid}" || "${sid}" != "${resid}" ]];then
         echo "输入的serverid或sid不一致,请再次确认后运行."
-        exit
+        exit -2
     else
 	############################################
 	# 命令行参数传入的值放进数组里面.
@@ -76,7 +76,7 @@ else
 	    update_servsers
         else
 	    echo "区服id和sid不一致,退出."
-            exit
+            exit -3
 	fi 
     fi
 fi
