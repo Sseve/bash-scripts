@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# 此脚本用于数据库相关数据更新,根据实际情况更改后可用.
 # 定义数据库连接的信息
 DB_URL="db_url"
 DB_PORT=db_port
