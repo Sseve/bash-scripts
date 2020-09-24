@@ -9,18 +9,20 @@ DB_PASSWD="db_pass"
 DB_NAME="db_name"
 #SQL_TEST="select sid,weburl from servers where sid=624;"
 
-
+# 次脚本的版主信息
 Help(){
     echo "
         Useage: sh update_servers.sh -z 56,57,58,59 -s 23,24,26,27
 	-h|--help	打印帮助信息.
-	-z|--zones	区服serverid, [100-150]
-        -s|--sid        sid, [561,562,563]
+	-z|--zones	区服serverid.
+        -s|--sid        sid值.
+
 	info: 注意severid和sid要对应起来.
     "
     exit
 }
 
+# 更新数据库表函数
 update_servsers(){
     length1=${#serverid[*]}
     length2=${#sid[*]}
@@ -42,6 +44,7 @@ update_servsers(){
     fi
 }
 
+# 命令行参数判断
 if [ $# -ne 4 ];then
     Help
 else
@@ -61,6 +64,7 @@ else
         exit
     else
 	############################################
+	# 命令行参数传入的值放进数组里面.
 	num=$(echo ${serverid} | grep -o ","|wc -l)
         for i in $(seq 0 ${num});do
 	    ((j=i+1))
