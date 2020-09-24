@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 # 定义数据库连接的信息
 DB_URL="db_url"
 DB_PORT=db_port
@@ -9,7 +8,7 @@ DB_PASSWD="db_pass"
 DB_NAME="db_name"
 #SQL_TEST="select sid,weburl from servers where sid=624;"
 
-# 次脚本的版主信息
+# 此脚本的帮助信息
 Help(){
     echo "
         Useage: sh update_servers.sh -z 56,57,58,59 -s 23,24,26,27
