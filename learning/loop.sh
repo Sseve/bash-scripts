@@ -31,12 +31,15 @@ for((i=0;i<10;i++));do
     echo $i
 done
 !
-####
-pid=$(ps aux|grep loop.sh |grep -v grep |awk '{print $2}')
-while [ 1 ];do
+for i in $(seq 1 5);do
+   echo $i
+done
+# 获取脚本运行的进程ID
+PID=$$
+# 无线循环做某件事情
+while true;do     # while [ 1 ]
+    echo $PID >> test.txt
     sleep 3600
-    echo ${pid} >> test.txt
-    echo " " >> test.txt
 done
 :<<!
 for ((;;));do
