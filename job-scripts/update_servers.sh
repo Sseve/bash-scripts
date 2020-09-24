@@ -12,9 +12,9 @@ DB_NAME="db_name"
 Help(){
     echo "
         Useage: sh update_servers.sh -z 56,57,58,59 -s 23,24,26,27
-	-h|--help	打印帮助信息.
-	-z|--zones	区服serverid.
-        -s|--sid        sid值.
+        	-h	打印帮助信息.
+	        -z	区服serverid.
+                -s      sid值.
 
 	info: 注意severid和sid要对应起来.
     "
