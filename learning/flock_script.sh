@@ -5,7 +5,7 @@
 # 方式一: 给脚本加锁
 {
     flock -n 3
-    [ $? -ne 0 ] && echo 'This script is running, please wait!' && exit
+    [ $? -eq 1 ] && echo 'This script is running, please wait!' && exit
     echo echo "succeed"
     echo "do something..." 
     sleep 100
@@ -16,7 +16,7 @@ echo aa
 # 方式二: 给脚本加锁
 exec 6>lock.tmp
 flock -xn 6
-[ $? -ne 0 ] && echo "This script is running, please wait!" && exit
+[ $? -eq 1 ] && echo "This script is running, please wait!" && exit
 # do your task here.
 echo "successd."
 echo "do something..."
