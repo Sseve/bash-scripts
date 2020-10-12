@@ -1,8 +1,12 @@
 #!/bin/bash
 # 此脚本用于数据库相关数据更新,根据实际情况更改后可用.
+
+set -euo pipefail
+source bach.sh
+
 # 定义数据库连接的信息
 DB_URL="db_url"
-DB_PORT=db_port
+DB_PORT=3306
 DB_USER="db_user"
 DB_PASSWD="db_pass"
 DB_NAME="db_name"
