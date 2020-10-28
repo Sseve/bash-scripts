@@ -9,10 +9,8 @@ shell脚本执行过程回显
 shell默认变量作用域是全局(使用命令local, readonl, declare来声明)
 !
 
-
-# shell脚本程序化结构
+# 变量间接引用
 func1(){
-    # 变量间接引用
     VAR1="aaaa"
     VAR2="VAR1"
     echo ${!VAR2}
@@ -27,7 +25,8 @@ func2(){
 
 # 函数返回值,默认只能是整数,获取想要的返回值如下:
 func3(){
-    echo "我是返回值"
+    aa="我是返回值"
+    echo ${aa}
 }
 
 # 并行处理任务
@@ -38,9 +37,8 @@ func4(){
     #方式3 parallel命令来做
 }
 
+# 脚本入口
 main(){
-    func1
-    func2
     res=$(func3)
     echo "this is from ${res}"
 }
