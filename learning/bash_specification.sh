@@ -6,7 +6,7 @@
 source /etc/profile
 export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
 shell脚本执行过程回显
-shell默认变量作用域是全局(使用命令local, readonl, declare来声明)
+shell默认变量作用域是全局(使用命令local, readonl, declare来声明函数内部的变量)
 !
 
 # 变量间接引用
@@ -39,7 +39,7 @@ func4(){
 
 # 脚本入口
 main(){
-    res=$(func3)
+    res=$(func3)    #获取函数返回值
     echo "this is from ${res}"
 }
 
