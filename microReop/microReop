@@ -3,6 +3,7 @@
 # 该脚本用于执行远程相关的操作
 # chmod +x microreop
 
+set -e
 
 Help()
 {
