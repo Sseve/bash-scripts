@@ -7,6 +7,10 @@ source /etc/profile
 export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
 shell脚本执行过程回显
 shell默认变量作用域是全局(使用命令local, readonl, declare来声明函数内部的变量)
+
+set -e
+在该指令之后的代码,一旦出现了返回值非0,整个脚本会立即退出.
+set -x 把执行内容输出,显示当前执行情况
 !
 
 # 变量间接引用
