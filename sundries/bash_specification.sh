@@ -11,6 +11,15 @@ shell默认变量作用域是全局(使用命令local, readonl, declare来声明
 set -e
 在该指令之后的代码,一旦出现了返回值非0,整个脚本会立即退出.
 set -x 把执行内容输出,显示当前执行情况
+
+set -o errexit == set -e   脚本中执行的所有命令中,有返回非零就退出脚本,不再继续往下执行.
+set -o nounset == set -u   脚本中有未绑定的变量就报错,并退出脚本.
+set -o xtrace  == set -x   显示脚本执行过程.
+set -o pipefail		   脚本中管道连接的命令中有返回非零的就退出脚本
+
+set -euxo pipefail 或者
+set -eux
+set -o pipefail
 !
 
 # 变量间接引用
