@@ -73,6 +73,44 @@ func5() {
     fi
 }
 
+# loop
+func6() {
+    for i in {1..5};do
+        echo $i
+    done
+    # +++++++
+    for j in $(seq -f "%03g" 1 5);do
+        echo $j
+    done
+    # +++++++
+    for i in $(seq 0 2 10);do
+        echo $i
+    done
+    # +++++++++
+    # array
+    a=(1 2 3 4 5)
+    for i in ${a[*]};do
+        echo $i
+    done
+    # ++++++++
+    # c syntax
+    for((i=0;i<10;i++));do
+        echo $i
+    done
+    # ++++++++
+    for i in $(seq 1 5);do
+       echo $i
+    done
+    # ++++++++
+    while true;do     # while [ 1 ]
+        sleep 3600
+    done
+    # 循环读取文件
+    while read line;do
+        echo ${line}
+    done < file_name
+}
+
 # 脚本入口
 main(){
     res=$(func3)    #获取函数返回值
