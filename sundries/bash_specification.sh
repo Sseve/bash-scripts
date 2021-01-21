@@ -61,9 +61,15 @@ func5() {
     fi
 
     if (( $b == "cc" )); then
-        cho "ccc"
+        echo "ccc"
     else
-        cho "ddd"
+        echo "ddd"
+    fi
+    
+    if [[ $a == 1 ]];then
+        echo "[[$a]]"
+    else
+        echo "[[]]"
     fi
 }
 
