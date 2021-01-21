@@ -50,6 +50,23 @@ func4(){
     #方式3 parallel命令来做
 }
 
+# if...
+func5() {
+    a=1
+    b="cc"
+    if (( $a == 1 )); then
+        echo "aaa"
+    else
+        echo "bbb"
+    fi
+
+    if (( $b == "cc" )); then
+        cho "ccc"
+    else
+        cho "ddd"
+    fi
+}
+
 # 脚本入口
 main(){
     res=$(func3)    #获取函数返回值
