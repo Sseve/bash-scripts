@@ -62,7 +62,7 @@ process_resource() {
 main() {
     host_resource
     echo
-    process_info
+    process_resource
 }
 
 main "$@"
