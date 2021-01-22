@@ -45,7 +45,7 @@ host_resource(){
 }
 
 # 采集目标进程指标
-process_info() {
+process_resource() {
     # 用户名,进程号,cpu使用,内存使用
     /bin/ps -eo user,pid,%cpu,%mem | grep "${username}" | grep -v 'grep' > ${infofile}
     while read -r line;do
