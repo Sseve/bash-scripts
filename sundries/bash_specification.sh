@@ -120,6 +120,9 @@ main(){
 
 #
 operater() {
+    # bc命令运算: var='echo "options; expression" | bc'
+    a='echo "scale=3; 1/3"|bc'
+
     # 算术运算: +  -  *  /  %  **
     let "a=2**2"  # a == 4
 

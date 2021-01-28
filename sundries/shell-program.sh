@@ -57,6 +57,11 @@
 #      PPID  --  当前进程号
 #       IFS  --  指定shell域分隔符号,默认空格
 # 相关环境变量的配置文件: .bash_profile, .bashrc, .bash_logout, profile
+# #
+# 间接变量引用:
+#       a=b && b=c
+#       eval t=\$$a 或者 t=${!a}
+
 
 ##### 测试，判断 #####
 # 测试： test expression 或者 [ expression ]
@@ -76,20 +81,20 @@
 #       测试文件是否是进程可执行  --  [ -x ${file} ]
 #       测试文件是否符号化链接    --  [-L ${file} ]
 # 逻辑操作: 
-#       !     ! expr
-#       -a    expr1 -a expr2 -a expr3  
-#       -o    expr1 -o expr2 -o expr3
+#       !     ! expression
+#       -a    expression1 -a expression2 -a expression3  
+#       -o    expression1 -o expression2 -o expression3
 #       &&    [ test1 ] && [ test2 ]
 #       ||    [ test1 ] || [ test2 ]
 
 ##### 结构控制 #####
 # 判断:
-# if [ expr ];then
+# if [ expression ];then
 #     command
 #     ...
 # fi
 # # #
-# if [ expr ];then
+# if [ expression ];then
 #     command
 #     ...
 # else
@@ -97,10 +102,10 @@
 #     ...
 # fi
 # # #
-# if [ expr ];then
+# if [ expression ];then
 #     command
 #     ...
-# elif [ expr ];then
+# elif [ expression ];then
 #     command
 #     ...
 # else
@@ -137,7 +142,7 @@
 #     ...
 # done
 # # #
-# while expr;do
+# while expression;do
 #     command
 #     ...
 # done
@@ -147,7 +152,7 @@
 #     shift
 # done 
 # #
-# until [[ expr ]];do
+# until [[ expression ]];do
 #     command
 #     ...
 # done
@@ -158,7 +163,7 @@
 # select var in {list};do
 #     command
 #     ...
-#     if [ expr ];then
+#     if [ expression ];then
 #         break
 #     fi
 # done
@@ -171,3 +176,25 @@
 # 抽取字串: #{string:position:length} 或者 expr substr ${aa} position length     # 也可以从右边开始抽取
 # 删除字串: ${string#substring}, ${string##substring}, ${string%substring}, ${string%%substring}
 # 替换字串: ${string/substring/replacement}, ${string//substring/replacement}, ${string/#substring/replacement}, ${string/%substring/replacement}
+
+##### I/O重定向 #####
+# 管道符号: |     --     command1 | command2
+# 标准输入: stdin   0
+# 标准输出: stdout  1
+# 标准错误: stderr  2
+# 重定向符号: >  >>  <  <<  -<<  2>&1
+# exec命令: 通过文件标识符打开或者关闭文件，或者将文件重定向到stdin, stdout;
+#     >filename      --      将标准输出写入到文件filename中
+#     <filename      --      将文件filename的内容读入到标准输入中
+#    >>filename      --      将标准输出写到文件filename中，如果文件存在则追加到文件filename末尾
+#    >|filename      --      强制覆盖文件filename的内容
+#   n>|filename      --      强制将FD为n的输出写入到filename中,并覆盖filename
+#    n>filename      --      将FD为n的输出写入到文件filename中,如noclobber选项存在则不能成功
+#    n<filename      --      将文件filename的内容读入到FD为n的描述符中
+#   n>>filename      --      将FD为n的输出写入到filename中,若文件存在则追加到末尾  
+#          <<EO      --      标记此处文档开始 
+#          n>&m      --      将FD为m的输出复制到FD为n的文件中
+#          n<&m      --      将FD为m的输入复制到FD为n的文件中
+#          n>&-      --      关闭FD为n的输出
+#          n<&-      --      关闭FD为n的输入
+#        &>file      --      将标准输出和标准错误重定向到文件file中
