@@ -81,6 +81,8 @@
 #       -o    expr1 -o expr2 -o expr3
 #       &&    [ test1 ] && [ test2 ]
 #       ||    [ test1 ] || [ test2 ]
+
+##### 结构控制 #####
 # 判断:
 # if [ expr ];then
 #     command
@@ -160,3 +162,12 @@
 #         break
 #     fi
 # done
+
+##### 字符串处理 => expr命令 #####
+# aa="i love china"
+# 求字符串长度:  ${#aa} 或者 expr length ${aa}
+# 索引子串位置:  expr index ${aa} ${substring}
+# 匹配字串: expr match ${aa} ${substring}
+# 抽取字串: #{string:position:length} 或者 expr substr ${aa} position length     # 也可以从右边开始抽取
+# 删除字串: ${string#substring}, ${string##substring}, ${string%substring}, ${string%%substring}
+# 替换字串: ${string/substring/replacement}, ${string//substring/replacement}, ${string/#substring/replacement}, ${string/%substring/replacement}
