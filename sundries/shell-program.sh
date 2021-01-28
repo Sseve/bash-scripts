@@ -36,7 +36,7 @@
 # 单引号内的字符不能表达特殊意义;双引号内的字符可以表达特殊的意义,并且可以进行变量替换
 # 本地变量: 用户当前shell生命周期的脚本中使用的变量,会随着shell消亡而无效,在新启动的shell也无效
 # 环境变量：环境变量在用户登陆到注销之前对所有编辑器,脚本,程序和应用都有效(env命令查看当前环境变量的值)
-# 位置参数: 用于向shell脚本传递参数 $0 $1 $2 ...${10} $@ $* $#
+# 位置参数: 用于向shell脚本传递参数 $0 $1 $2 ...${10} $@ $* $# $? $$
 # shell变量同时有数值型和字符型两种,数值型初始值是0,字符型初始值为空,而且可以不用事先定义就直接使用.
 # 变量赋值: var_name=value 或者 ${va_name=value}
 # 取变量的值: ${variable}
@@ -45,4 +45,118 @@
 #          :-  --  对已经赋值过的变量不再赋值,如果变量没有赋值就给变量赋值但不保留,如: ${colour:-red}  echo ${colour} => 什么都没有，为空
 #      :?或者?  --  测试变量是否被赋值,如果没赋值会报错
 #    readonly  --  设置只读变量, colour=black && readonly colour 或者 declare -r colour=red 或者 typeset -r colour=green
+# shell脚本变量默认是字符型,空字符串还具有一个整型值0;如果变量值包含数字则该变量是数值型,否则是字符串型.
 # 环境变量定义: export var_name
+# 常见环境变量:
+#       PWD  --  当前目录的路径
+#    OLDPWD  --  用户前一个所处目录路径
+#      PATH  --  记录一些可执行命令或脚本的环境变量
+#      HOME  --  记录当前用户的根目录
+#      USER  --  当前用户名字
+#       UID  --  当前用户ID
+#      PPID  --  当前进程号
+#       IFS  --  指定shell域分隔符号,默认空格
+# 相关环境变量的配置文件: .bash_profile, .bashrc, .bash_logout, profile
+
+##### 测试，判断 #####
+# 测试： test expression 或者 [ expression ]
+# 整数比较: -eq, -ge, -gt, -le, -lt, -ne
+# 字符串运算: 
+#       测试字符串是否不为空  --  test "${string}" 或者 [ -n "${string}" ]
+#       测试字符串是否为空    --  [ -z "${string}" ]
+#       测试字符串是否相同    --  [ "${string1}" = "${string2}" ] 或者 [ "${string1}" == "${string2}" ]
+#       测试字符串是否不同    --  [ "${string1}" != "${string2}" ]
+# 文件操作:
+#       测试文件是否是目录       --  [ -d ${file} ]
+#       测试文件是否存在         --  [ -e ${file} ]
+#       测试文件是否是普通文件    --  [ -f ${file} ]
+#       测试文件是否是进程可读    --  [ -r ${file} ]
+#       测试文件长度是否为0      --   [ -s ${file} ]
+#       测试文件是否是进程可写    --  [ -w ${file} ]
+#       测试文件是否是进程可执行  --  [ -x ${file} ]
+#       测试文件是否符号化链接    --  [-L ${file} ]
+# 逻辑操作: 
+#       !     ! expr
+#       -a    expr1 -a expr2 -a expr3  
+#       -o    expr1 -o expr2 -o expr3
+#       &&    [ test1 ] && [ test2 ]
+#       ||    [ test1 ] || [ test2 ]
+# 判断:
+# if [ expr ];then
+#     command
+#     ...
+# fi
+# # #
+# if [ expr ];then
+#     command
+#     ...
+# else
+#     command
+#     ...
+# fi
+# # #
+# if [ expr ];then
+#     command
+#     ...
+# elif [ expr ];then
+#     command
+#     ...
+# else
+#     command
+#     ...
+# fi
+## 注意:(())可以用作数值比较, if((a>b)) && ((a<c)); 一般用二元比较可以用[[ ]]代替[ ]
+# case结构:
+# case var in
+#     var1)
+#     command
+#     ;;
+#     var2)
+#     command
+#     ;;
+#     *)
+#     command
+#     ;;
+# esac
+# #
+# for循环
+# for var in {list};do     # list形式 {1..5..2}, $(seq 1 100 2), 数组
+#    command
+#     ...
+# done
+# # 
+# for argumet in "$@";do   # 遍历命令行参数
+#   command
+#     ...
+# done
+# # 
+# for(( expr1; expr2; expr3));do    # expr可以是逗号分隔的多个表达式
+#     command
+#     ...
+# done
+# # #
+# while expr;do
+#     command
+#     ...
+# done
+# #
+# while [[ "$*" != "" ]];do    # 控制命令行
+#     echo "$1"
+#     shift
+# done 
+# #
+# until [[ expr ]];do
+#     command
+#     ...
+# done
+# # 
+# 循环控制: break  continue
+# #
+# select结构: 
+# select var in {list};do
+#     command
+#     ...
+#     if [ expr ];then
+#         break
+#     fi
+# done
