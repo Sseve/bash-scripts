@@ -20,6 +20,8 @@ set -o pipefail		   脚本中管道连接的命令中有返回非零的就退出
 set -euxo pipefail 或者
 set -eux
 set -o pipefail
+set -r    限制模式,禁止改变一些重要的环境变量
+set -n    调试脚本是否存在语法错误，但是不执行相关命令
 !
 
 # 变量间接引用
@@ -115,6 +117,9 @@ func6() {
 main(){
     res=$(func3)    #获取函数返回值
     echo "this is from ${res}"
+
+    ##随机数产生
+    NUM=$RANDOM
 }
 
 
