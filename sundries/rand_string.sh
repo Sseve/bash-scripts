@@ -25,5 +25,5 @@ for n in ${seq_rand[@]};do
 done
 echo
 
-### 以下命令也可以产生12位随机数 ###
+### 以下命令也可以产生12位随机字符串 ###
 echo $RANDOM | md5sum | cut -c 1-12
