@@ -1,6 +1,8 @@
 #!/bin/bash
 # cleanup log
 
+# shell脚本中使用的内建命令不会产生新的进程,非内建命令要产生新的进程
+
 LOG_DIR=/var/log    
 ROOT_UID=0          # UID为0的用户才拥有root权限
 LINES=50            # 默认保存messages日志文件行数
@@ -56,3 +58,6 @@ mv mesg.temp messages
 echo "Log files cleaned up." 
 
 exit 0
+
+# 脚本调用
+# sh scriptname 或 bash scriptname 或 chmod U+rx scriptname && ./scriptname 
